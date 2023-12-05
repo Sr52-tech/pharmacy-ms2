@@ -1,11 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Main from './pages/Main.js';
+import SignUp from './pages/SignUp.js';
 
 function App() {
   return (
-    <>
-      <h1 className='text-blue-500 text-4xl font-bold'>hello mother fucker</h1>
-    </>
+    <Router>
+      <div className="App">
+
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+
+      </div>
+    </Router>
   );
 }
 
