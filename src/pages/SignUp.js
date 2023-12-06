@@ -1,13 +1,13 @@
 import Nav from "./components/Navbar.jsx";
-import Auth from './components/Auth.jsx';
+import Signup from "./components/Signup.jsx";
+
 
 function SignUp(){
     return(
 
         <div>
             <Nav />
-            
-            <Auth />
+            <Signup />
         </div>
     );
 }
