@@ -1,9 +1,9 @@
-import Nav from "./components/Navbar.jsx";
-import Signup from "./components/Signup.jsx";
+import Nav from "../components/Navbar.jsx";
+import Signup from "../components/Signup.jsx";
 
 
-function SignUp(){
-    return(
+function SignUp() {
+    return (
 
         <div>
             <Nav />

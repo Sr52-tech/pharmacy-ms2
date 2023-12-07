@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { auth, googleProvider } from '../../firebase-config';
+import { useNavigate } from "react-router-dom";
+import { auth, googleProvider } from '../firebase-config';
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 
 export const Signup = () => {
@@ -39,12 +40,14 @@ export const Signup = () => {
             setPasswordError('');
         }
     };
-
+    const navigate = useNavigate();
     const signUp = async (e) => {
+
         e.preventDefault();
         console.log('Attempting to sign up with email and password');
         try {
             await createUserWithEmailAndPassword(auth, email, password, name);
+            navigate("/");
             console.log('Sign up successful');
         } catch (err) {
             console.error('Sign up failed:', err.message);

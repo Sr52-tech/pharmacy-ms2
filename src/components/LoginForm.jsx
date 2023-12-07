@@ -1,9 +1,9 @@
 //todo: add error message for incorrect password and email not registered
 //todo: navigate to home page after login
 
-import { useNavigate, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase-config";
+import { auth } from "../firebase-config";
 import React from "react";
 import { useState } from "react";
 

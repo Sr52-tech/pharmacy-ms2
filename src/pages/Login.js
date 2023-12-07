@@ -1,8 +1,8 @@
-import Nav from "./components/Navbar.jsx";
-import LoginForm from "./components/LoginForm.jsx";
+import Nav from "../components/Navbar.jsx";
+import LoginForm from "../components/LoginForm.jsx";
 
-function LogIn(){
-    return(
+function LogIn() {
+    return (
 
         <div>
             <Nav />
