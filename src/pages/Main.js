@@ -3,7 +3,7 @@
 import React from "react";
 import Nav from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
-import { Products } from "./Products.jsx";
+import { MedicineProducts } from "./MedicineProducts.jsx";
 import Carousel from "../components/Carousel.jsx";
 import Categories from "../components/Categories.jsx";
 import Testimonial from "../components/Testimonial.jsx";
@@ -20,16 +20,16 @@ function Main() {
                 <Categories
 
                     imgSrc="/Pics/Cards/Designer.png"
-                    title="Beauty Products"
+                    title="Medicine Products"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/products"
+                    link="/medicine"
 
                 />
 
                 <Categories
 
                     imgSrc="/Pics/Cards/Allergy.png"
-                    title="Beauty Products"
+                    title="Cosmetic Products"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                     link="/products"
                 />
@@ -37,7 +37,7 @@ function Main() {
                 <Categories
 
                     imgSrc="/Pics/SkinCare.png"
-                    title="Beauty Products"
+                    title="Hygiene Products"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                     link="/products"
                 />
