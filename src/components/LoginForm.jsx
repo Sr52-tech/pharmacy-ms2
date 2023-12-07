@@ -3,7 +3,7 @@
 
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase-config";
+import { auth } from "../firebase-config";
 import React from "react";
 import { useState } from "react";
 
