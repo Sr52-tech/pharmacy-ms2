@@ -26,19 +26,6 @@ function Nav({ user }) {
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
             </Navbar.Brand>
             <div className="flex md:order-2">
-                {!user &&
-                    <>
-                        <Navbar.Link as={Link} to="/login">Login</Navbar.Link>
-                        <Navbar.Link as={Link} to="/signup">Signup</Navbar.Link>
-                    </>
-                }
-                {user &&
-                    <>
-                        <Navbar.Link as={Link} to="/cart"><FaShoppingCart /></Navbar.Link>
-                        <Navbar.Link as={Link} to="/">{user}</Navbar.Link>
-                        <Button onClick={Logout}>Logout</Button>
-                    </>
-                }
                 <Navbar.Toggle />
             </div>
             <Navbar.Collapse>

@@ -8,7 +8,7 @@ import React from "react";
 import { useState } from "react";
 
 
-export const Login = (props) => {
+export const Login = () => {
     const [email, setLoginEmail] = useState('');
     const [password, setLoginPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -18,7 +18,6 @@ export const Login = (props) => {
         console.log('Attempting to log in');
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            props.navigate('/');
             console.log('Login successful');
         } catch (err) {
             console.error('Login failed:', err.message);

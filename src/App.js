@@ -15,42 +15,12 @@ import { collection, doc, getDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 export class App extends React.Component {
 
-  state = {
-    user: null,
-    role: 'user'
-  }
-
-  componentDidMount = () => {
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        const userDocRef = doc(collection(db, 'users'), user.uid);
-        getDoc(userDocRef).then(snapshot => {
-          if (snapshot.exists()) {
-            const userData = snapshot.data();
-            this.setState({
-              user: userData.Name,
-              role: userData.Role
-            });
-          }
-        }).catch(error => {
-          console.error('Error getting user document:', error);
-        });
-      } else {
-        this.setState({
-          user: null,
-          role: 'user'
-        });
-      }
-    });
-  };
-
-
   render() {
     return (
       <ProductsContextProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Main user={this.state.user} role={this.state.role} />} />
+            <Route path="/" element={<Main />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
             <Route path="/medicine" element={<MedicineProducts />} />
