@@ -31,7 +31,7 @@ function Main({ user, role }) {
                     imgSrc="/Pics/Cards/Allergy.png"
                     title="Cosmetic Products"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/products"
+                    link="/cosmetic"
                 />
 
                 <Categories
@@ -39,7 +39,7 @@ function Main({ user, role }) {
                     imgSrc="/Pics/SkinCare.png"
                     title="Hygiene Products"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/products"
+                    link="/hygiene"
                 />
             </div>
 

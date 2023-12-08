@@ -8,18 +8,17 @@ import React from "react";
 import { useState } from "react";
 
 
-function LoginForm() {
+export const Login = (props) => {
     const [email, setLoginEmail] = useState('');
     const [password, setLoginPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate();
 
     const Login = async (e) => {
         e.preventDefault();
         console.log('Attempting to log in');
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            navigate("/");
+            props.navigate('/');
             console.log('Login successful');
         } catch (err) {
             console.error('Login failed:', err.message);
@@ -63,5 +62,3 @@ function LoginForm() {
         </div>
     );
 }
-
-export default LoginForm;

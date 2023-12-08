@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Main from './pages/Main.js';
 import SignUp from './pages/SignUp.js';
 import React from 'react';
-import LogIn from './pages/Login.js'
+import { Login } from './components/LoginForm.jsx'
 import { AddProducts } from './pages/AddProducts.js';
 import { ProductsContext, ProductsContextProvider } from './global/ProductsContext';
 import StaffDashboard from './pages/Staff_Dashboard.js';
@@ -11,7 +11,8 @@ import { MedicineProducts } from './pages/MedicineProducts.jsx';
 import { CosmeticProducts } from './pages/CosmeticProducts.jsx';
 import { HygieneProducts } from './pages/HygieneProducts.jsx';
 import { auth, db } from './firebase-config';
-
+import { collection, doc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 export class App extends React.Component {
 
   state = {
@@ -20,22 +21,28 @@ export class App extends React.Component {
   }
 
   componentDidMount = () => {
-    auth.onAuthStateChanged(user => {
+    onAuthStateChanged(auth, user => {
       if (user) {
-        db.collection('users').doc(user.uid).get().then(snapshot => {
-          this.setState({
-            user: snapshot.data().Name,
-            role: snapshot.data().Role
-          })
-        })
+        const userDocRef = doc(collection(db, 'users'), user.uid);
+        getDoc(userDocRef).then(snapshot => {
+          if (snapshot.exists()) {
+            const userData = snapshot.data();
+            this.setState({
+              user: userData.Name,
+              role: userData.Role
+            });
+          }
+        }).catch(error => {
+          console.error('Error getting user document:', error);
+        });
       } else {
         this.setState({
           user: null,
           role: 'user'
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
 
   render() {
@@ -43,9 +50,9 @@ export class App extends React.Component {
       <ProductsContextProvider>
         <Router>
           <Routes>
-            <Route path="/" element={() => <Main user={this.state.user} role={this.state.role} />} />
+            <Route path="/" element={<Main user={this.state.user} role={this.state.role} />} />
             <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<LogIn />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/medicine" element={<MedicineProducts />} />
             <Route path="/cosmetic" element={<CosmeticProducts />} />
             <Route path="/hygiene" element={<HygieneProducts />} />
