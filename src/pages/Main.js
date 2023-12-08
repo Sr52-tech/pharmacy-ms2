@@ -8,10 +8,10 @@ import Carousel from "../components/Carousel.jsx";
 import Categories from "../components/Categories.jsx";
 import Testimonial from "../components/Testimonial.jsx";
 
-function Main() {
+function Main({ user, role }) {
     return (
         <>
-            <Nav />
+            <Nav user={user} role={role} />
             <Carousel />
 
             <h1 style={{ marginLeft: '110px', marginBottom: '50px' }} class="text-5xl font-extrabold dark:text-white m-4">All Types<small class="ms-2 font-semibold text-gray-500 dark:text-gray-400">Of Medicines</small></h1>
