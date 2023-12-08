@@ -15,7 +15,6 @@ export const CosmeticProducts = () => {
 
     return (
         <>
-            <Nav />
             <div style={{
                 display: 'grid',
                 gridTemplateColumns: isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
@@ -26,13 +25,10 @@ export const CosmeticProducts = () => {
                 {medicineProducts.map((product) => (
                     <ProductCard
                         key={product.id}
-                        imageSrc={product.ProductImage}
-                        description={product.Description}
-                        price={product.ProductPrice}
+                        product={product}
                     />
                 ))}
             </div>
-            <Footer />
         </>
     );
 };

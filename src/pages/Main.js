@@ -11,7 +11,6 @@ import Testimonial from "../components/Testimonial.jsx";
 function Main() {
     return (
         <>
-            <Nav />
             <Carousel />
 
             <h1 style={{ marginLeft: '110px', marginBottom: '50px' }} class="text-5xl font-extrabold dark:text-white m-4">All Types<small class="ms-2 font-semibold text-gray-500 dark:text-gray-400">Of Medicines</small></h1>
@@ -62,8 +61,6 @@ function Main() {
                     queote="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 />
             </div>
-
-            <Footer />
         </>
     );
 }

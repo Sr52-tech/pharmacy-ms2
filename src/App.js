@@ -1,35 +1,89 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Outlet, RouterProvider, ScrollRestoration, createBrowserRouter } from 'react-router-dom';
 // pages routing
 import Main from './pages/Main.js';
-import SignUp from './pages/SignUp.js';
+import { Signup } from './components/Signup.jsx';
 import React from 'react';
 import { Login } from './components/LoginForm.jsx'
 import { AddProducts } from './pages/AddProducts.js';
-import { ProductsContext, ProductsContextProvider } from './global/ProductsContext';
+import { ProductsContextProvider } from './global/ProductsContext';
 import StaffDashboard from './pages/Staff_Dashboard.js';
 import { MedicineProducts } from './pages/MedicineProducts.jsx';
 import { CosmeticProducts } from './pages/CosmeticProducts.jsx';
 import { HygieneProducts } from './pages/HygieneProducts.jsx';
-import { auth, db } from './firebase-config';
-import { collection, doc, getDoc } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import Nav from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
+import Cart from './pages/Cart.js';
+import Product from './components/Product.js';
 export class App extends React.Component {
+
+
+
+  Layout() {
+    return (
+      <div>
+        <Nav />
+        <ScrollRestoration />
+        <Outlet />
+        <Footer />
+      </div>
+    )
+  }
+
+  router = createBrowserRouter([
+    {
+      path: '/',
+      element: <this.Layout />,
+      children: [
+        {
+          path: '/',
+          element: <Main />
+        },
+        {
+          path: '/signup',
+          element: <Signup />
+        },
+        {
+          path: '/login',
+          element: <Login />
+        },
+        {
+          path: '/medicine',
+          element: <MedicineProducts />
+        },
+        {
+          path: '/cosmetic',
+          element: <CosmeticProducts />
+        },
+        {
+          path: '/hygiene',
+          element: <HygieneProducts />
+        },
+        {
+          path: '/addproducts',
+          element: <AddProducts />
+        },
+        {
+          path: '/dashboard',
+          element: <StaffDashboard />
+        },
+        {
+          path: '/cart',
+          element: <Cart />
+        },
+        {
+          path: '/product/:id',
+          element: <Product />
+        }
+      ]
+    }
+  ])
+
+
 
   render() {
     return (
       <ProductsContextProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/medicine" element={<MedicineProducts />} />
-            <Route path="/cosmetic" element={<CosmeticProducts />} />
-            <Route path="/hygiene" element={<HygieneProducts />} />
-            <Route path="/addproducts" element={<AddProducts />} />
-            <Route path="/dashboard" element={<StaffDashboard />} />
-          </Routes>
-        </Router>
+        <RouterProvider router={this.router} />
       </ProductsContextProvider>
     );
   }
