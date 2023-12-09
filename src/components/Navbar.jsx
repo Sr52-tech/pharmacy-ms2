@@ -31,7 +31,9 @@ function Nav({ user }) {
             </Navbar.Brand>
             <div className="flex md:order-2">
                 <Navbar.Toggle />
-                <ShoppingCartIcon count={productData.length} />
+                <Link to="/cart">
+                    <ShoppingCartIcon count={productData.length} />
+                </Link>
             </div>
             <Navbar.Collapse>
                 <Navbar.Link href="#" active>
