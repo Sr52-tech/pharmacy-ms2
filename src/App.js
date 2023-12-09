@@ -82,9 +82,7 @@ export class App extends React.Component {
 
   render() {
     return (
-      <ProductsContextProvider>
-        <RouterProvider router={this.router} />
-      </ProductsContextProvider>
+      <RouterProvider router={this.router} />
     );
   }
 }
