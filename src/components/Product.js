@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Card } from 'flowbite-react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../redux/pharmacySlice';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Product = () => {
+    const dispatch = useDispatch();
     const [details, setDetails] = useState({});
     const [quantity, setQuantity] = useState(1);
     const Location = useLocation();
@@ -23,8 +26,17 @@ const Product = () => {
         }
     }
 
-    const addToCart = () => {
-        // Add the product to the cart
+    const addToCartEvent = () => {
+        dispatch(
+            addToCart({
+                _id: details._id,
+                name: details.ProductName,
+                image: details.ProductImage,
+                price: details.ProductPrice,
+                quantity: quantity,
+                description: details.Description,
+            })
+        ) && toast.success(`${details.ProductName} Added to cart`)
     }
 
     return (
@@ -50,12 +62,24 @@ const Product = () => {
                             <button className='border h-5 font-normal text-lg flex items-center justify-center px-2 hover:bg-gray-700 hover:text-white curso-pointer duration-300 active:bg-black' onClick={increaseQuantity}>+</button>
                         </div>
                         <br />
-                        <button className='bg-black text-white py-3 px-6 active:bg-gray-800' onClick={addToCart}>Add to Cart</button>
+                        <button className='bg-black text-white py-3 px-6 active:bg-gray-800' onClick={addToCartEvent}>Add to Cart</button>
                     </div>
                     <p>Category: {details.Category}</p>
                     <p>Description: {details.Description}</p>
                 </div>
             </div>
+            <ToastContainer
+                position="top-left"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </div>
     )
 }

@@ -1,10 +1,14 @@
 import { Button, Navbar } from 'flowbite-react';
-import { FaShoppingCart } from "react-icons/fa";
+import ShoppingCartIcon from './ShoppingCartIcon';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebase-config';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 function Nav({ user }) {
+    const productData = useSelector((state) => state.pharmacy.productData);
+    console.log("productData:", productData);
     const navigate = useNavigate();
     console.log("User:", user);
 
@@ -27,6 +31,9 @@ function Nav({ user }) {
             </Navbar.Brand>
             <div className="flex md:order-2">
                 <Navbar.Toggle />
+                <Link to="/cart">
+                    <ShoppingCartIcon count={productData.length} />
+                </Link>
             </div>
             <Navbar.Collapse>
                 <Navbar.Link href="#" active>
@@ -38,6 +45,7 @@ function Nav({ user }) {
                 <Navbar.Link href="#">Contact</Navbar.Link>
                 <Navbar.Link as={Link} to="/products">Products</Navbar.Link> {/* Add this line */}
             </Navbar.Collapse>
+
         </Navbar>
     );
 }

@@ -1,13 +1,32 @@
-import React, { useContext } from 'react';
-import { ProductsContext } from '../global/ProductsContext';
+import React from 'react';
 import { ProductCard } from '../components/ProductCard';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Nav from '../components/Navbar';
-import Footer from '../components/Footer';
+import { useState, useEffect } from 'react';
+import { collection, query, getDocs } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 export const CosmeticProducts = () => {
-    const { products } = useContext(ProductsContext);
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const q = query(collection(db, 'products'));
+            const querySnapshot = await getDocs(q);
+            const products = querySnapshot.docs.map(doc => ({
+                ProductId: doc.data().ProductId,
+                ProductName: doc.data().ProductName,
+                ProductPrice: doc.data().ProductPrice,
+                ProductImage: doc.data().ProductImage,
+                Product_quantity: doc.data().Product_quantity,
+                Description: doc.data().Description,
+                Category: doc.data().Category,
+            }));
+            setProducts(products);
+        };
+
+        fetchProducts();
+    }, []);
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
