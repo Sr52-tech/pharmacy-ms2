@@ -20,6 +20,7 @@ const Cart = () => {
     const handleCheckout = () => {
         if (userInfo) {
             setPayNow(true);
+            toast.success('Payment Successful');
         }
         else {
             toast.error('Please login to continue');

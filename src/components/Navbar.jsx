@@ -9,19 +9,10 @@ import { Avatar } from 'flowbite-react';
 function Nav({ user }) {
     const productData = useSelector((state) => state.pharmacy.productData);
     const userInfo = useSelector((state) => state.pharmacy.userInfo);
+
     const navigate = useNavigate();
 
     console.log(userInfo)
-    const Logout = async () => {
-        try {
-            await auth.signOut().then(() => {
-                navigate('/login');
-            });
-            console.log('Logout successful');
-        } catch (err) {
-            console.error('Logout failed:', err.message);
-        }
-    }
 
     return (
         <Navbar fluid rounded>
@@ -45,12 +36,14 @@ function Nav({ user }) {
                     Home
                 </Navbar.Link>
                 <Navbar.Link href="#">About</Navbar.Link>
-                <Navbar.Link href="#">Services</Navbar.Link>
-                <Navbar.Link href="#">Pricing</Navbar.Link>
+                {userInfo && userInfo.Role === 'admin' && (
+                    <Navbar.Link as={Link} to="/staffdashboard">
+                        Admin Dashboard
+                    </Navbar.Link>
+                )}
                 <Navbar.Link href="#">Contact</Navbar.Link>
                 <Navbar.Link as={Link} to="/products">Products</Navbar.Link> {/* Add this line */}
             </Navbar.Collapse>
-
         </Navbar>
     );
 }

@@ -14,6 +14,7 @@ import Nav from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import Cart from './pages/Cart.js';
 import Product from './components/Product.js';
+import Staff_Dashboard from './pages/Staff_Dashboard.js';
 export class App extends React.Component {
 
 
@@ -69,6 +70,10 @@ export class App extends React.Component {
         {
           path: '/cart',
           element: <Cart />
+        },
+        {
+          path: '/staffdashboard',
+          element: <Staff_Dashboard />
         },
         {
           path: '/product/:id',

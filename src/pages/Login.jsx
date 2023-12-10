@@ -9,49 +9,62 @@ import { GoogleAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/
 import React from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { addUser, removeUser } from "../redux/pharmacySlice";
+import { addUser, removeUser, selectUserRole } from "../redux/pharmacySlice";
 import { useNavigate } from "react-router-dom";
-
+import { collection, addDoc, getDocs, doc, query, where } from "firebase/firestore";
+import { db } from '../firebase-config';
 
 export const Login = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const auth = getAuth()
     const provider = new GoogleAuthProvider();
-    const handleGoogleLogin = (e) => {
+
+    const handleGoogleLogin = async (e) => {
         e.preventDefault();
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                dispatch(addUser({
-                    _id: user.uid,
-                    email: user.email,
-                    name: user.displayName,
-                    image: user.photoURL,
-                    phone: user.phoneNumber,
-                })
-                )
-                setTimeout(() => {
-                    navigate('/')
-                }, 1500)
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
-                console.log(error)
-            });
-    }
+        try {
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            const userEmail = user.email;
+
+
+
+            const usersCollectionRef = collection(db, 'users');
+            const querySnapshot = await getDocs(query(usersCollectionRef, where('email', '==', userEmail)));
+            const currentUserData = querySnapshot.docs[0].data();
+            // Extract necessary fields from the Firebase user object
+            const userData = {
+                uid: user.uid,
+                email: userEmail,
+                name: user.displayName || '', // Use empty string if displayName is undefined
+                image: user.photoURL || '', // Use empty string if photoURL is undefined
+                phone: user.phoneNumber || '',
+                Role: currentUserData?.Role
+            };
+            if (querySnapshot.docs.length === 0) {
+                console.log('User Info:', userData);
+
+                await addDoc(usersCollectionRef, {
+                    email: userEmail,
+                    name: userData.displayName,
+                    image: userData.photoURL,
+                    phone: userData.phoneNumber,
+                    Role: 'user', // Assuming a default role for new users
+                });
+
+                dispatch(addUser(userData));
+            } else {
+                dispatch(addUser(userData));
+            }
+
+            setTimeout(() => {
+                navigate('/');
+            }, 500);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     const handleSignout = () => {
         signOut(auth).then(() => {
