@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import CartItem from '../components/CartItem';
 import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Cart = () => {
     const productData = useSelector((state) => state.pharmacy.productData);
+    const userInfo = useSelector((state) => state.pharmacy.userInfo);
     const [totalAmt, setTotalAmt] = useState(0);
+    const [payNow, setPayNow] = useState(false);
 
     useEffect(() => {
         let total = 0;
@@ -13,6 +16,15 @@ const Cart = () => {
         });
         setTotalAmt(total);
     }, [productData])
+
+    const handleCheckout = () => {
+        if (userInfo) {
+            setPayNow(true);
+        }
+        else {
+            toast.error('Please login to continue');
+        }
+    }
     return (
         <div>
             <img
@@ -37,11 +49,23 @@ const Cart = () => {
                     <p className='font-titleFont font-semibold flex justify-between mt-6'>
                         Total<span className='text-xl font-bold'>${totalAmt}</span>
                     </p>
-                    <button className='bg-black text-base text-white w-full py-3 mt-6 hover:bg-gray-800'>
+                    <button onClick={handleCheckout} className='bg-black text-base text-white w-full py-3 mt-6 hover:bg-gray-800'>
                         Proceed to Checkout
                     </button>
                 </div>
             </div>
+            <ToastContainer
+                position="top-left"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </div>
     )
 }

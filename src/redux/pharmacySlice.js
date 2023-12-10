@@ -36,8 +36,14 @@ export const pharmacySlice = createSlice({
                 item.quantity -= 1;
             }
         },
+        addUser: (state, action) => {
+            state.userInfo = action.payload;
+        },
+        removeUser: (state) => {
+            state.userInfo = null;
+        },
     },
 })
 
-export const { addToCart, deleteItem, clearCart, incrementQuantity, decrementQuantity } = pharmacySlice.actions;
+export const { addToCart, deleteItem, clearCart, incrementQuantity, decrementQuantity, addUser, removeUser } = pharmacySlice.actions;
 export default pharmacySlice.reducer;
