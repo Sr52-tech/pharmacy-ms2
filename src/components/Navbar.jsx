@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import { auth } from '../firebase-config';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import { Avatar } from 'flowbite-react';
 
 function Nav({ user }) {
     const productData = useSelector((state) => state.pharmacy.productData);
-    console.log("productData:", productData);
+    const userInfo = useSelector((state) => state.pharmacy.userInfo);
     const navigate = useNavigate();
-    console.log("User:", user);
 
+    console.log(userInfo)
     const Logout = async () => {
         try {
             await auth.signOut().then(() => {
@@ -29,11 +29,16 @@ function Nav({ user }) {
                 <img src="/logo192.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
             </Navbar.Brand>
-            <div className="flex md:order-2">
+            <div className="flex md:order-2 items-center">
                 <Navbar.Toggle />
-                <Link to="/cart">
+                <Link to="/cart" className="flex items-center mr-4">
                     <ShoppingCartIcon count={productData.length} />
                 </Link>
+                <Link to="login" className="flex md:order-2 items-center">
+                    {userInfo && <Avatar img={userInfo.image || 'default-image-url'} alt="avatar" rounded />}
+                    {userInfo && <p className="ml-2">{userInfo.name}</p>}
+                </Link>
+                {!userInfo && <Button onClick={() => navigate('/login')}>Login</Button>}
             </div>
             <Navbar.Collapse>
                 <Navbar.Link href="#" active>

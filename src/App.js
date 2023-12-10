@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Route, Routes, Outlet, RouterProvider, ScrollRestoration, createBrowserRouter } from 'react-router-dom';
 // pages routing
 import Main from './pages/Main.js';
-import { Signup } from './components/Signup.jsx';
+import { Signup } from './pages/Signup.jsx';
 import React from 'react';
-import { Login } from './components/LoginForm.jsx'
+import { Login } from './pages/Login.jsx'
 import { AddProducts } from './pages/AddProducts.js';
 import { ProductsContextProvider } from './global/ProductsContext';
 import StaffDashboard from './pages/Staff_Dashboard.js';
