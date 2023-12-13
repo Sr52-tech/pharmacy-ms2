@@ -7,6 +7,8 @@ import { AddProducts } from './pages/AddProducts.js';
 import { ProductsContext, ProductsContextProvider } from './global/ProductsContext';
 import StaffDashboard from './pages/Staff_Dashboard.js';
 import { Products } from './pages/Products.jsx';
+import Stat from './pages/Stat.js';
+
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/addproducts" element={<AddProducts />} />
             <Route path="/dashboard" element={<StaffDashboard />} />
+            <Route path="/stat" element={<Stat />} />
           </Routes>
 
         </div>

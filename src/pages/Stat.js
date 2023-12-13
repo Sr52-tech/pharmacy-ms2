@@ -1,23 +1,49 @@
-import React from "react";
 import Nav from "../components/Navbar";
 import BasicCard from "../components/BasicCard";
 import Footer from "../components/Footer";
+import LineChart from "../charts/LineChart.jsx";
 
-import { useState, useEffect } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import { db, app } from "../firebase-config.js";
+import { collection, getDocs, } from "firebase/firestore";
+import React, { useState, useEffect } from 'react';
+
 
 function Stat() {
 
-    const [totalUsers, setTotalUsers] = useState(0);
+    const [userCount, setUserCount] = useState(0);
+    const [productsCount, setProductsCount] = useState(0);
+    const [salesCount, setSalesCount] = useState(0);
+
+    const collectionRef = collection(db, "users");
+    const collectionRefP = collection(db, "products");
+    const collectionRefS = collection(db, "sales");
 
     useEffect(() => {
-        firebase.firestore().collection('Users').get().then((querySnapshot) => {
-            const TotalUsers = querySnapshot.size;
-            setTotalUsers(TotalUsers);
-        });
+        const fetchSalesCount = async () => {
+            const data = await getDocs(collectionRefS);
+            setSalesCount(data.docs.length);
+        };
+    
+        fetchSalesCount();
     }, []);
 
+    useEffect(() => {
+        const fetchUserCount = async () => {
+            const data = await getDocs(collectionRef);
+            setUserCount(data.docs.length);
+        };
+    
+        fetchUserCount();
+    }, []);
+
+    useEffect(() => {
+        const fetchProductCount = async () => {
+            const data = await getDocs(collectionRefP);
+            setProductsCount(data.docs.length);
+        };
+    
+        fetchProductCount();
+    }, []);
 
     return (
         <>
@@ -25,9 +51,18 @@ function Stat() {
 
             <div className="row flex flex-wrap justify-center">
                 <BasicCard 
-                    title={`Number of Users ${totalUsers}`}
+                    title={`${userCount} Users`}
                     icon="/Pics/icons/user.png"
                 />
+
+                <BasicCard 
+                    title={`${productsCount} Products`}
+                    icon= '/Pics/icons/med.png'
+                />
+            </div>
+
+            <div>
+                <LineChart />
             </div>
 
             <Footer />
