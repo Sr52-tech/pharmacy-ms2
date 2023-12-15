@@ -26,42 +26,47 @@ export const Login = () => {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
             const userEmail = user.email;
-
-
-
+    
             const usersCollectionRef = collection(db, 'users');
             const querySnapshot = await getDocs(query(usersCollectionRef, where('email', '==', userEmail)));
-            const currentUserData = querySnapshot.docs[0].data();
-            // Extract necessary fields from the Firebase user object
-            const userData = {
-                uid: user.uid,
-                email: userEmail,
-                name: user.displayName || '', // Use empty string if displayName is undefined
-                image: user.photoURL || '', // Use empty string if photoURL is undefined
-                phone: user.phoneNumber || '',
-                Role: currentUserData?.Role
-            };
+    
             if (querySnapshot.docs.length === 0) {
-                console.log('User Info:', userData);
-
-                await addDoc(usersCollectionRef, {
+                // User not found in the database, add them
+                const userData = {
+                    uid: user.uid,
                     email: userEmail,
-                    name: userData.displayName,
-                    image: userData.photoURL,
-                    phone: userData.phoneNumber,
-                    Role: 'user', // Assuming a default role for new users
-                });
-
+                    name: user.displayName || '',
+                    image: user.photoURL || '',
+                    phone: user.phoneNumber || '',
+                    Role: 'user',
+                };
+    
+                await addDoc(usersCollectionRef, userData);
                 dispatch(addUser(userData));
             } else {
+                // User found in the database
+                const currentUserData = querySnapshot.docs[0].data();
+                const userData = {
+                    uid: user.uid,
+                    email: userEmail,
+                    name: user.displayName || '',
+                    image: user.photoURL || '',
+                    phone: user.phoneNumber || '',
+                    Role: currentUserData?.Role || 'user',
+                };
+    
                 dispatch(addUser(userData));
             }
-
+    
             setTimeout(() => {
                 navigate('/');
             }, 500);
         } catch (error) {
             console.error(error);
+            // TODO: Add error handling for the specific error scenarios
+            if (error.code === 'auth/invalid-email' || error.code === 'auth/user-not-found') {
+                toast.error('Incorrect email or user not registered.');
+            }
         }
     };
 
