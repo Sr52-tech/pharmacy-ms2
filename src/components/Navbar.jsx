@@ -20,7 +20,7 @@ function Nav({ user }) {
                 <img src="/logo192.png" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Flowbite React</span>
             </Navbar.Brand>
-            <div className="flex md:order-2 items-center">
+
                 <Navbar.Toggle />
                 <Link to="/cart" className="flex items-center mr-4">
                     <ShoppingCartIcon count={productData.length} />
@@ -31,7 +31,9 @@ function Nav({ user }) {
                 </Link>
                 {!userInfo && <Button onClick={() => navigate('/login')}>Login</Button>}
             </div>
+
             <Navbar.Collapse>
+
                 <Navbar.Link href="#" active>
                     Home
                 </Navbar.Link>
@@ -43,6 +45,7 @@ function Nav({ user }) {
                 )}
                 <Navbar.Link href="#">Contact</Navbar.Link>
                 <Navbar.Link as={Link} to="/products">Products</Navbar.Link> {/* Add this line */}
+                <Navbar.Link as={Link} to="/dashboard">Management</Navbar.Link> {/* Add this line */}                
             </Navbar.Collapse>
         </Navbar>
     );

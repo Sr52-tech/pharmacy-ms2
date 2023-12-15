@@ -7,6 +7,7 @@ import { Login } from './pages/Login.jsx'
 import { AddProducts } from './pages/AddProducts.js';
 import { ProductsContextProvider } from './global/ProductsContext';
 import StaffDashboard from './pages/Staff_Dashboard.js';
+
 import { MedicineProducts } from './pages/MedicineProducts.jsx';
 import { CosmeticProducts } from './pages/CosmeticProducts.jsx';
 import { HygieneProducts } from './pages/HygieneProducts.jsx';
@@ -90,6 +91,7 @@ export class App extends React.Component {
       <RouterProvider router={this.router} />
     );
   }
+
 }
 
 export default App;
