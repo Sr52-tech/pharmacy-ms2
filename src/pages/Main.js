@@ -3,7 +3,7 @@
 import React from "react";
 import Nav from "../components/Navbar.jsx";
 import Footer from "../components/Footer.jsx";
-import { Products } from "./Products.jsx";
+import { MedicineProducts } from "./MedicineProducts.jsx";
 import Carousel from "../components/Carousel.jsx";
 import Categories from "../components/Categories.jsx";
 import Testimonial from "../components/Testimonial.jsx";
@@ -11,7 +11,6 @@ import Testimonial from "../components/Testimonial.jsx";
 function Main() {
     return (
         <>
-            <Nav />
             <Carousel />
 
             <h1 style={{ marginLeft: '110px', marginBottom: '50px' }} class="text-5xl font-extrabold dark:text-white m-4">All Types<small class="ms-2 font-semibold text-gray-500 dark:text-gray-400">Of Medicines</small></h1>
@@ -20,26 +19,26 @@ function Main() {
                 <Categories
 
                     imgSrc="/Pics/Cards/Designer.png"
-                    title="Beauty Products"
+                    title="Medicine Products"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/products"
+                    link="/medicine"
 
                 />
 
                 <Categories
 
                     imgSrc="/Pics/Cards/Allergy.png"
-                    title="Beauty Products"
+                    title="Cosmetic Products"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/products"
+                    link="/cosmetic"
                 />
 
                 <Categories
 
                     imgSrc="/Pics/SkinCare.png"
-                    title="Beauty Products"
+                    title="Hygiene Products"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/products"
+                    link="/hygiene"
                 />
             </div>
 
@@ -62,8 +61,6 @@ function Main() {
                     queote="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
                 />
             </div>
-
-            <Footer />
         </>
     );
 }

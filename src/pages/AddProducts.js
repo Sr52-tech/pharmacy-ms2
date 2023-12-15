@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
+import { Select, MenuItem } from '@mui/material';
 
 export const AddProducts = () => {
     const navigate = useNavigate();
@@ -13,7 +14,9 @@ export const AddProducts = () => {
         name: '',
         price: '',
         quantity: '',
+        description: '',
         image: null,
+        category: '',
     });
 
     const [errors, setErrors] = useState({});
@@ -94,6 +97,8 @@ export const AddProducts = () => {
                 ProductPrice: product.price,
                 Product_quantity: product.quantity,
                 ProductImage: imageUrl,
+                Description: product.description,
+                Category: product.category,
             });
 
             // Clear the form
@@ -102,7 +107,9 @@ export const AddProducts = () => {
                 name: '',
                 price: '',
                 quantity: '',
+                description: '',
                 image: null,
+                category: '',
             });
 
             // Clear file input
@@ -132,6 +139,26 @@ export const AddProducts = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField fullWidth label="Product Quantity" name="quantity" value={product.quantity} onChange={handleChange} error={Boolean(errors.quantity)} helperText={errors.quantity} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Select
+                                fullWidth
+                                label="Product Category"
+                                name="category"
+                                value={product.category}
+                                onChange={handleChange}
+                                placeholder='Select Category'
+                            >
+                                <MenuItem disabled value="">
+                                    <em>Select Category</em>
+                                </MenuItem>
+                                <MenuItem value="Medicine">Medicine</MenuItem>
+                                <MenuItem value="Cosmetic">Beauty Products</MenuItem>
+                                <MenuItem value="Hygiene">Hygiene</MenuItem>
+                            </Select>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField fullWidth label="Product Description" name="description" value={product.description} onChange={handleChange} error={Boolean(errors.description)} helperText={errors.description} />
                         </Grid>
                         <Grid item xs={12}>
                             <input id="file" type="file" accept=".png, .jpg, .jpeg" onChange={handleImageChange} />

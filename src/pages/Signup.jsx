@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { auth, googleProvider } from '../firebase-config';
 import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { collection, addDoc } from "firebase/firestore";
+import { db, storage } from '../firebase-config';
 
 export const Signup = () => {
 
@@ -42,17 +44,26 @@ export const Signup = () => {
     };
     const navigate = useNavigate();
     const signUp = async (e) => {
-
         e.preventDefault();
         console.log('Attempting to sign up with email and password');
         try {
-            await createUserWithEmailAndPassword(auth, email, password, name);
+            await createUserWithEmailAndPassword(auth, email, password, name)
+                .then(async (userCredential) => {
+                    console.log("attempting to add user to database")
+                    await addDoc(collection(db, "users"), {
+                        Name: name,
+                        Email: email,
+                        Password: password,
+                        Role: "user"
+                    })
+                });
             navigate("/");
             console.log('Sign up successful');
         } catch (err) {
             console.error('Sign up failed:', err.message);
         }
     };
+
 
     const signUpGoogle = async () => {
         console.log('Attempting to sign up with Google');
