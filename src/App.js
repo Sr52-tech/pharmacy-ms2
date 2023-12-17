@@ -7,6 +7,7 @@ import { Login } from './pages/Login.jsx'
 import { AddProducts } from './pages/AddProducts.js';
 import { ProductsContextProvider } from './global/ProductsContext';
 import StaffDashboard from './pages/Staff_Dashboard.js';
+import Stat from './pages/Stat.js';
 
 import { MedicineProducts } from './pages/MedicineProducts.jsx';
 import { CosmeticProducts } from './pages/CosmeticProducts.jsx';
@@ -79,6 +80,10 @@ export class App extends React.Component {
         {
           path: '/product/:id',
           element: <Product />
+        },
+        {
+          path: '/stat',
+          element: <Stat />
         }
       ]
     }

@@ -8,7 +8,6 @@ import Categories from "../components/Categories";
 function Staff_Dashboard() {
     return (
         <>
-            <Nav />
 
             <div style={{ marginLeft: '4px', marginTop: '150px' }} className="row flex flex-wrap justify-center">
                 <Categories
@@ -32,7 +31,7 @@ function Staff_Dashboard() {
                     imgSrc="/Pics/BlurredMeds.png"
                     title="Statistics"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/products"
+                    link="/stat"
                 />
             </div>
 

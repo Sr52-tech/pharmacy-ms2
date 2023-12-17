@@ -47,8 +47,6 @@ function Stat() {
 
     return (
         <>
-            <Nav />
-
             <div className="row flex flex-wrap justify-center">
                 <BasicCard 
                     title={`${userCount} Users`}
@@ -64,8 +62,6 @@ function Stat() {
             <div>
                 <LineChart />
             </div>
-
-            <Footer />
         </>
     );
 }
