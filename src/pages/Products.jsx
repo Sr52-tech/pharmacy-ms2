@@ -1,48 +1,35 @@
 import React, { useContext } from 'react';
 import { ProductsContext } from '../global/ProductsContext';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea, CardActions, Button } from '@mui/material';
+import Nav from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export const Products = () => {
     const { products } = useContext(ProductsContext);
 
     return (
-        <div style={{ display: 'flex', flexWrap: 'wrap', textAlign: 'center' }}>
+        <>  
+        <Nav />        
+    
+        <div className="row flex flex-wrap justify-center" style={{marginTop: '30px', marginBottom: '30px'}}>
             {products.map((product) => (
-                <Card
-                    key={product.id}
-                    sx={{
-                        maxWidth: 345,
-                        flex: '1 0 30%', // Set the flex basis to 33.33% to display 3 cards on each row
-                        margin: '20px', // Add some margin between the cards
-                    }}
-                >
-                    <CardActionArea>
-                        <CardMedia
-                            component="img"
-                            height="140"
-                            image={product.ProductImage}
-                            alt={product.ProductImage}
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="div">
-                                {product.ProductName}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {`$${product.ProductPrice}`}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions style={{ justifyContent: 'center' }}>
-                        <Button size="small" color="primary" variant="contained">
-                            Add to Cart
-                        </Button>
-                    </CardActions>
-                </Card>
-            ))}
+                <div key={product.id} className="w-full max-w-sm m-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <a href="/#">
+            <img className="h-4/6 w-full object-cover rounded-t-lg" src={product.ProductImage} alt="product image"  />
+        </a>
+        <div className="px-5 pb-5" style={{marginTop: '30px'}}>
+            <a href="/#">
+                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{product.ProductName}</h5>
+            </a>
+            <div className="flex items-center justify-between" >
+                <span className="text-3xl font-bold text-gray-900 dark:text-white">${product.ProductPrice}</span>
+                <a href="/#" style={{backgroundColor: '#0C7494'}} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+            </div>
         </div>
+    </div>
+    ))}
+</div>
+
+<Footer />
+</>
     );
-};
+}
