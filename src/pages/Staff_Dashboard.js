@@ -37,7 +37,6 @@ function Staff_Dashboard() {
             </div>
 
             <div style={{ marginTop: '170px' }}>
-                <Footer />
             </div>
 
         </>
