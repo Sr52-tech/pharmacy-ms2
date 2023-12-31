@@ -32,7 +32,7 @@ function Nav({ user }) {
                 {!userInfo && <Button onClick={() => navigate('/login')}>Login</Button>}
             </div>
             <Navbar.Collapse>
-                <Navbar.Link href="#" active>
+                <Navbar.Link href="/" active>
                     Home
                 </Navbar.Link>
                 <Navbar.Link href="#">About</Navbar.Link>
@@ -42,7 +42,6 @@ function Nav({ user }) {
                     </Navbar.Link>
                 )}
                 <Navbar.Link href="#">Contact</Navbar.Link>
-                <Navbar.Link as={Link} to="/products">Products</Navbar.Link> {/* Add this line */}
             </Navbar.Collapse>
         </Navbar>
     );
