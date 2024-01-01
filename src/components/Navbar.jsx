@@ -43,7 +43,7 @@ function Nav({ user }) {
                     <ShoppingCartIcon count={productData.length} />
                 </Link>
                 <Link to="login" className="flex md:order-2 items-center">
-                    {userInfo && <Avatar img={userInfo.image || 'default-image-url'} alt="avatar" rounded />}
+                    {userInfo && userInfo.image && <Avatar img={userInfo?.image || 'default-image-url'} alt="avatar" rounded />}
                     {userInfo && <p className="ml-2">{userInfo.name}</p>}
                     {userInfo && <Button className="ml-2" onClick={handleSignout}>Signout</Button>}
                 </Link>
