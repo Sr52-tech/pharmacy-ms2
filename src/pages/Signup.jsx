@@ -1,9 +1,11 @@
-import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { auth, googleProvider } from '../firebase-config';
-import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { collection, addDoc } from "firebase/firestore";
-import { db, storage } from '../firebase-config';
+import React, { useState } from "react";import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import { collection, addDoc, getDocs, doc, query, where } from "firebase/firestore";
+import { GoogleAuthProvider, getAuth, signInWithPopup, signOut, createUserWithEmailAndPassword } from "firebase/auth";
+import { addUser, removeUser, selectUserRole } from "../redux/pharmacySlice";
+import { auth, googleProvider, db, storage } from '../firebase-config';
+
 
 export const Signup = () => {
 
@@ -12,6 +14,11 @@ export const Signup = () => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const navigate = useNavigate();
+    const dispatch = useDispatch()
+
+    const auth = getAuth()
+    const provider = new GoogleAuthProvider();
 
     const handleEmailChange = (e) => {
         const email = e.target.value;
@@ -42,38 +49,110 @@ export const Signup = () => {
             setPasswordError('');
         }
     };
-    const navigate = useNavigate();
+    
+
     const signUp = async (e) => {
         e.preventDefault();
         console.log('Attempting to sign up with email and password');
         try {
-            await createUserWithEmailAndPassword(auth, email, password, name)
-                .then(async (userCredential) => {
-                    console.log("attempting to add user to database")
-                    await addDoc(collection(db, "users"), {
-                        Name: name,
-                        Email: email,
-                        Password: password,
-                        Role: "user"
-                    })
-                });
-            navigate("/");
-            console.log('Sign up successful');
-        } catch (err) {
-            console.error('Sign up failed:', err.message);
+            const result = await createUserWithEmailAndPassword(auth, email, password, name)
+            const user = result.user;
+            const userEmail = user.email;
+    
+            const usersCollectionRef = collection(db, 'users');
+            const querySnapshot = await getDocs(query(usersCollectionRef, where('email', '==', userEmail)));
+    
+            if (querySnapshot.docs.length === 0) {
+                // User not found in the database, add them
+                const userData = {
+                    uid: user.uid,
+                    email: userEmail,
+                    name: user.displayName || '',
+                    image: user.photoURL || '',
+                    phone: user.phoneNumber || '',
+                    Role: 'user',
+                };
+    
+                await addDoc(usersCollectionRef, userData);
+                dispatch(addUser(userData));
+            } else {
+                // User found in the database
+                const currentUserData = querySnapshot.docs[0].data();
+                const userData = {
+                    uid: user.uid,
+                    email: userEmail,
+                    name: user.displayName || '',
+                    image: user.photoURL || '',
+                    phone: user.phoneNumber || '',
+                    Role: currentUserData?.Role || 'user',
+                };
+    
+                dispatch(addUser(userData));
+            }
+    
+            setTimeout(() => {
+                navigate('/');
+            }, 500);
+        } catch (error) {
+            console.error(error);
+            // TODO: Add error handling for the specific error scenarios
+            if (error.code === 'auth/invalid-email' || error.code === 'auth/user-not-found') {
+                toast.error('Incorrect email or user not registered.');
+            }
         }
     };
 
 
-    const signUpGoogle = async () => {
-        console.log('Attempting to sign up with Google');
+    const handleGoogleLogin = async (e) => {
+        e.preventDefault();
         try {
-            await signInWithPopup(auth, googleProvider);
-            console.log('Sign up with Google successful');
-        } catch (err) {
-            console.error('Sign up with Google failed:', err);
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            const userEmail = user.email;
+    
+            const usersCollectionRef = collection(db, 'users');
+            const querySnapshot = await getDocs(query(usersCollectionRef, where('email', '==', userEmail)));
+    
+            if (querySnapshot.docs.length === 0) {
+                // User not found in the database, add them
+                const userData = {
+                    uid: user.uid,
+                    email: userEmail,
+                    name: user.displayName || '',
+                    image: user.photoURL || '',
+                    phone: user.phoneNumber || '',
+                    Role: 'user',
+                };
+    
+                await addDoc(usersCollectionRef, userData);
+                dispatch(addUser(userData));
+            } else {
+                // User found in the database
+                const currentUserData = querySnapshot.docs[0].data();
+                const userData = {
+                    uid: user.uid,
+                    email: userEmail,
+                    name: user.displayName || '',
+                    image: user.photoURL || '',
+                    phone: user.phoneNumber || '',
+                    Role: currentUserData?.Role || 'user',
+                };
+    
+                dispatch(addUser(userData));
+            }
+    
+            setTimeout(() => {
+                navigate('/');
+            }, 500);
+        } catch (error) {
+            console.error(error);
+            // TODO: Add error handling for the specific error scenarios
+            if (error.code === 'auth/invalid-email' || error.code === 'auth/user-not-found') {
+                toast.error('Incorrect email or user not registered.');
+            }
         }
     };
+
 
     return (
         <div style={{ marginTop: '80px' }}>
@@ -108,7 +187,7 @@ export const Signup = () => {
                 <p className="text-center" style={{ marginTop: '7px' }}>do you have an account? <a href="/login" className="text-blue-700 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-400">Login</a></p>
 
                 {/* Google button */}
-                <button onClick={signUpGoogle} type="button" className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-20 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2 mx-auto block" style={{ marginLeft: '35px', marginTop: '30px' }}>
+                <button onClick={handleGoogleLogin} type="button" className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-20 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 me-2 mb-2 mx-auto block" style={{ marginLeft: '35px', marginTop: '30px' }}>
                     <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 19">
                         <path fill-rule="evenodd" d="M8.842 18.083a8.8 8.8 0 0 1-8.65-8.948 8.841 8.841 0 0 1 8.8-8.652h.153a8.464 8.464 0 0 1 5.7 2.257l-2.193 2.038A5.27 5.27 0 0 0 9.09 3.4a5.882 5.882 0 0 0-.2 11.76h.124a5.091 5.091 0 0 0 5.248-4.057L14.3 11H9V8h8.34c.066.543.095 1.09.088 1.636-.086 5.053-3.463 8.449-8.4 8.449l-.186-.002Z" clip-rule="evenodd" />
                     </svg>

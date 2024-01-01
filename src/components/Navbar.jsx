@@ -5,12 +5,29 @@ import { auth } from '../firebase-config';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Avatar } from 'flowbite-react';
+import { GoogleAuthProvider, getAuth, signInWithPopup, signOut } from "firebase/auth";
+import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { addUser, removeUser, selectUserRole } from "../redux/pharmacySlice";
+
 
 function Nav({ user }) {
     const productData = useSelector((state) => state.pharmacy.productData);
     const userInfo = useSelector((state) => state.pharmacy.userInfo);
+    const dispatch = useDispatch()
 
     const navigate = useNavigate();
+
+    const handleSignout = () => {
+        signOut(auth).then(() => {
+            // Sign-out successful.
+            toast.success('Signout successful')
+            dispatch(removeUser())
+        }).catch((error) => {
+            // An error happened.
+            console.log(error)
+        });
+    }
 
     console.log(userInfo)
 
@@ -28,8 +45,11 @@ function Nav({ user }) {
                 <Link to="login" className="flex md:order-2 items-center">
                     {userInfo && <Avatar img={userInfo.image || 'default-image-url'} alt="avatar" rounded />}
                     {userInfo && <p className="ml-2">{userInfo.name}</p>}
+                    {userInfo && <Button className="ml-2" onClick={handleSignout}>Signout</Button>}
                 </Link>
-                {!userInfo && <Button onClick={() => navigate('/login')}>Login</Button>}
+                {!userInfo && <Button onClick={() => navigate('/login')}>Login</Button>}    
+                {!userInfo && <Button  className="ml-2"
+                onClick={() => navigate('/signup')}>Signup</Button>}
             </div>
             <Navbar.Collapse>
                 <Navbar.Link href="/" active>
@@ -43,6 +63,18 @@ function Nav({ user }) {
                 )}
                 <Navbar.Link href="#">Contact</Navbar.Link>
             </Navbar.Collapse>
+            <ToastContainer
+                position="top-left"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </Navbar>
     );
 }
