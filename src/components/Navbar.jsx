@@ -29,7 +29,7 @@ function Nav({ user }) {
         });
     }
 
-    console.log(userInfo)
+    console.log("userinfo",userInfo)
 
     return (
         <Navbar fluid rounded>
@@ -63,11 +63,6 @@ function Nav({ user }) {
                 {userInfo && userInfo.Role === 'admin' && (
                     <Navbar.Link as={Link} to="/staffdashboard">
                         Admin Dashboard
-                    </Navbar.Link>
-                )}
-                {userInfo && (
-                    <Navbar.Link onClick={handleSignout}>
-                        Sign Out
                     </Navbar.Link>
                 )}
             </Navbar.Collapse>

@@ -52,10 +52,7 @@ export const Login = () => {
     
                 dispatch(addUser(userData));
             }
-    
-            setTimeout(() => {
                 navigate('/');
-            }, 500);
         } catch (error) {
             console.error(error);
             // TODO: Add error handling for the specific error scenarios
@@ -71,16 +68,22 @@ export const Login = () => {
         try {
             const result = await signInWithEmailAndPassword(auth, email, password);
             const user = result.user;
+
+            const userEmail = user.email;
+    
+            const usersCollectionRef = collection(db, 'users');
+            const querySnapshot = await getDocs(query(usersCollectionRef, where('email', '==', userEmail)));
             
-            // Dispatch action to add user
-            const userData = {
-                uid: user.uid,
-                email: user.email,
-                name: user.displayName || '',
-                image: user.photoURL || '',
-                phone: user.phoneNumber || '',
-                Role: 'user',
-            };
+                // User found in the database
+                const currentUserData = querySnapshot.docs[0].data();
+                const userData = {
+                    uid: user.uid,
+                    email: userEmail,
+                    name: user.displayName || '',
+                    image: user.photoURL || '',
+                    phone: user.phoneNumber || '',
+                    Role: currentUserData?.Role || 'user',
+                }
 
             dispatch(addUser(userData));
 
