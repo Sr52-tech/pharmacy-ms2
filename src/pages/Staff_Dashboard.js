@@ -9,7 +9,7 @@ function Staff_Dashboard() {
     return (
         <>
 
-            <div style={{ marginLeft: '4px', marginTop: '150px' }} className="row flex flex-wrap justify-center">
+            <div style={{ marginLeft: '4px', marginTop: '50px' }} className="row flex flex-wrap justify-center">
                 <Categories
 
                     imgSrc='/Pics/BlurredMeds.png'
@@ -35,9 +35,6 @@ function Staff_Dashboard() {
                 />
             </div>
 
-            <div style={{ marginTop: '170px' }}>
-                <Footer />
-            </div>
 
         </>
     );
