@@ -40,13 +40,15 @@ function Nav({ user }) {
             <div className="flex md:order-2 items-center">
                 <Navbar.Toggle />
                 <Link to="/cart" className="flex items-center mr-4">
+                    {/* Using ShoppingCartIcon with the count prop */}
                     <ShoppingCartIcon count={productData.length} />
                 </Link>
+                {userInfo && <Button className="mr-2" onClick={handleSignout}>Signout</Button>}
                 <Link to="login" className="flex md:order-2 items-center">
                     {userInfo && userInfo.image && <Avatar img={userInfo?.image || 'default-image-url'} alt="avatar" rounded />}
                     {userInfo && <p className="ml-2">{userInfo.name}</p>}
-                    {userInfo && <Button className="ml-2" onClick={handleSignout}>Signout</Button>}
                 </Link>
+                
                 {!userInfo && <Button onClick={() => navigate('/login')}>Login</Button>}    
                 {!userInfo && <Button  className="ml-2"
                 onClick={() => navigate('/signup')}>Signup</Button>}

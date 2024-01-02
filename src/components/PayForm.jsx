@@ -65,7 +65,7 @@ function PayForm() {
             setYearError("No letters allowed");
         }
         else if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
-            setNameError("No special characters allowed");
+            setYearError("No special characters allowed");
         }
         else if (value.length !== 2) {
             setYearError("Invalid date");
