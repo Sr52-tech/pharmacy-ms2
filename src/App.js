@@ -17,6 +17,7 @@ import Footer from './components/Footer.jsx';
 import Cart from './pages/Cart.js';
 import Product from './components/Product.js';
 import Staff_Dashboard from './pages/Staff_Dashboard.js';
+import Payment from './pages/Payment.js';
 export class App extends React.Component {
 
 
@@ -60,6 +61,10 @@ export class App extends React.Component {
         {
           path: '/hygiene',
           element: <HygieneProducts />
+        },
+        {
+          path: '/payment',
+          element: <Payment />
         },
         {
           path: '/addproducts',
