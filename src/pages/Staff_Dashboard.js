@@ -13,13 +13,12 @@ function Staff_Dashboard() {
                 <Categories
 
                     imgSrc='/Pics/BlurredMeds.png'
-                    title="Products"
+                    title="Add New Product"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/products"
+                    link="/addproducts"
                 />
 
                 <Categories
-
                     imgSrc="/Pics/BlurredMeds.png"
                     title="View Reports"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
@@ -35,6 +34,8 @@ function Staff_Dashboard() {
                 />
             </div>
 
+            <div style={{ marginTop: '170px' }}>
+            </div>
 
         </>
     );

@@ -3,8 +3,10 @@ import { Card } from 'flowbite-react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/pharmacySlice';
 import { ToastContainer, toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
-export function ProductCard({ product }) {
+
+export function ProductCard({ product, onDelete }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const _id = product.ProductName
@@ -12,6 +14,8 @@ export function ProductCard({ product }) {
         return String(_id).toLowerCase().split(" ").join("");
     }
     const rootId = idString(_id);
+
+    const userInfo = useSelector((state) => state.pharmacy.userInfo);
 
     const handleDetailsClick = () => {
         navigate(`/product/${rootId}`, {
@@ -32,6 +36,16 @@ export function ProductCard({ product }) {
             })
         ) && toast.success(`${product.ProductName} Added to cart`)
     };
+
+    const handleDeleteClick = (e) => {
+        e.stopPropagation();
+        if (onDelete && typeof onDelete === 'function') {
+            onDelete();
+        } else {
+            console.error('onDelete is not a function or not provided.');
+        }
+    };
+
 
     return (
         <Card
@@ -57,6 +71,16 @@ export function ProductCard({ product }) {
                 >
                     Add to cart
                 </button>
+                {onDelete && userInfo?.Role === 'admin' && (
+                    <button
+                        className="rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 ml-2"
+                        onClick={handleDeleteClick}
+                    >
+                        Delete
+                    </button>
+                )}
+
+
             </div>
             <ToastContainer
                 position="top-left"
