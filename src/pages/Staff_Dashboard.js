@@ -9,9 +9,7 @@ function Staff_Dashboard() {
     return (
         <>
 
-            <div style={{ marginLeft: '4px', marginTop: '150px' }} className="row flex flex-wrap justify-center">
-
-                {/* link to /addproducts */}
+            <div style={{ marginLeft: '4px', marginTop: '50px' }} className="row flex flex-wrap justify-center">
                 <Categories
 
                     imgSrc='/Pics/BlurredMeds.png'

@@ -21,6 +21,7 @@ const Cart = () => {
         if (userInfo) {
             setPayNow(true);
             toast.success('Payment Successful');
+            window.location.href='/payment';
         }
         else {
             toast.error('Please login to continue');
@@ -50,7 +51,7 @@ const Cart = () => {
                     <p className='font-titleFont font-semibold flex justify-between mt-6'>
                         Total<span className='text-xl font-bold'>${totalAmt}</span>
                     </p>
-                    <button onClick={handleCheckout} className='bg-black text-base text-white w-full py-3 mt-6 hover:bg-gray-800'>
+                    <button onClick={ handleCheckout} className='bg-black text-base text-white w-full py-3 mt-6 hover:bg-gray-800'>
                         Proceed to Checkout
                     </button>
                 </div>
