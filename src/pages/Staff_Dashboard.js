@@ -22,7 +22,7 @@ function Staff_Dashboard() {
                     imgSrc="/Pics/BlurredMeds.png"
                     title="View Reports"
                     description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                    link="/stat"
+                    link="/report"
                 />
 
                 <Categories
