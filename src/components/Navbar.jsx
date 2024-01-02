@@ -65,6 +65,9 @@ function Nav({ user }) {
                         Admin Dashboard
                     </Navbar.Link>
                 )}
+                                    <Navbar.Link as={Link} to="/contact">
+                        Contact Us
+                    </Navbar.Link>
             </Navbar.Collapse>
 
             <ToastContainer

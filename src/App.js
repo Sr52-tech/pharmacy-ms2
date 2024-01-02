@@ -19,6 +19,7 @@ import Product from './components/Product.js';
 import Staff_Dashboard from './pages/Staff_Dashboard.js';
 import Payment from './pages/Payment.js';
 import LegalDocs from './components/LegalDocs.js';
+import Contact from './pages/Contact.js';
 export class App extends React.Component {
 
 
@@ -94,6 +95,10 @@ export class App extends React.Component {
         {
           path: '/legal',
           element: <LegalDocs />
+        },
+        {
+          path: '/contact',
+          element: <Contact/>
         }
       ]
     }
