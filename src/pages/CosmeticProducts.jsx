@@ -16,6 +16,7 @@ export const CosmeticProducts = () => {
                 const q = query(collection(db, 'products'));
                 const querySnapshot = await getDocs(q);
                 const products = querySnapshot.docs.map((doc) => ({
+                    id: doc.id,
                     ProductId: doc.data().ProductId,
                     ProductName: doc.data().ProductName,
                     ProductPrice: doc.data().ProductPrice,
@@ -23,10 +24,8 @@ export const CosmeticProducts = () => {
                     Product_quantity: doc.data().Product_quantity,
                     Description: doc.data().Description,
                     Category: doc.data().Category,
-                    id: doc.id,
                 }));
                 setProducts(products);
-                console.log('Fetched Products:', products);
             } catch (error) {
                 console.error('Error fetching products:', error);
             } finally {
@@ -39,10 +38,8 @@ export const CosmeticProducts = () => {
 
     const handleDeleteProduct = async (productId) => {
         try {
-            console.log('Deleting product with ID:', productId);
             await deleteDoc(doc(db, 'products', productId));
             setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
-            console.log('Product deleted successfully!');
         } catch (error) {
             console.error('Error deleting product:', error);
         }
@@ -56,18 +53,17 @@ export const CosmeticProducts = () => {
     return (
         <>
             {loading ? (
-                // Show CircularProgress while products are being fetched
-                <CircularProgress style={{ margin: '2rem' }} />
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                    <CircularProgress />
+                </div>
             ) : (
-                <div
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                        gap: '1rem',
-                        textAlign: 'center',
-                        margin: '2rem',
-                    }}
-                >
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                    gap: '1rem',
+                    textAlign: 'center',
+                    margin: '2rem',
+                }}>
                     {cosmeticProducts.map((product) => (
                         <ProductCard key={product.id} product={product} onDelete={() => handleDeleteProduct(product.id)} />
                     ))}
@@ -76,3 +72,5 @@ export const CosmeticProducts = () => {
         </>
     );
 };
+
+export default CosmeticProducts;
