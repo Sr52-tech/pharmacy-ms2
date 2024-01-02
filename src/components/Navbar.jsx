@@ -59,7 +59,7 @@ function Nav({ user }) {
                     Home
                 </Navbar.Link>
             </div>
-                <Navbar.Link href="#">About</Navbar.Link>
+                <Navbar.Link href="/legal">About</Navbar.Link>
                 {userInfo && userInfo.Role === 'admin' && (
                     <Navbar.Link as={Link} to="/staffdashboard">
                         Admin Dashboard
