@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import CartItem from '../components/CartItem';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { db } from '../firebase-config';
+import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
@@ -35,7 +37,22 @@ const Cart = () => {
         setHasMedicine(isFound);
     };
 
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
+        const orderDetails = {
+            products: productData,
+            user: userInfo,
+            total: totalAmt,
+        };
+    
+        try {
+            const docRef = await addDoc(collection(db, "orders"), orderDetails);
+            console.log("Order has been saved with ID: ", docRef.id);
+            toast.success("Order has been placed successfully!");
+        } catch (error) {
+            console.error("Error adding order: ", error);
+            toast.error("Error placing order. Please try again.");
+        }
+
         if (userInfo) {
             setIsCheckoutInitiated(true); 
         } else {
