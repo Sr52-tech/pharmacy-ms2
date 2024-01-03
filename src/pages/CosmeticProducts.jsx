@@ -3,12 +3,14 @@ import { ProductCard } from '../components/ProductCard';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import CircularProgress from '@mui/material/CircularProgress';
+import TextField from '@mui/material/TextField';
 import { collection, query, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase-config';
 
 export const CosmeticProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -49,7 +51,14 @@ export const CosmeticProducts = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const cosmeticProducts = products.filter((product) => product.Category === 'Cosmetic');
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value.toLowerCase());
+    };
+
+    const filteredProducts = products.filter(product => 
+        product.Category === 'Cosmetic' && 
+        product.ProductName.toLowerCase().includes(searchTerm)
+    );
 
     return (
         <>
@@ -58,17 +67,28 @@ export const CosmeticProducts = () => {
                     <CircularProgress />
                 </div>
             ) : (
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                    gap: '1rem',
-                    textAlign: 'center',
-                    margin: '2rem',
-                }}>
-                    {cosmeticProducts.map((product) => (
-                        <ProductCard key={product.id} product={product} onDelete={() => handleDeleteProduct(product.id)} />
-                    ))}
-                </div>
+                <>
+                    <TextField 
+                        fullWidth 
+                        label="Search Products" 
+                        variant="outlined" 
+                        onChange={handleSearchChange} 
+                        style={{ margin: '1rem' }}
+                    />
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                        gap: '1rem',
+                        textAlign: 'center',
+                        margin: '2rem',
+                    }}>
+                        {filteredProducts.map((product) => (
+                            <ProductCard key={product.id} 
+                            product={product} 
+                            onDelete={() => handleDeleteProduct(product.id)} />
+                        ))}
+                    </div>
+                </>
             )}
         </>
     );

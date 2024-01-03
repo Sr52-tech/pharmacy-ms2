@@ -5,10 +5,12 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import CircularProgress from '@mui/material/CircularProgress';
 import { collection, query, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db } from "../firebase-config";
+import TextField from '@mui/material/TextField';
 
 export const HygieneProducts = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -35,10 +37,8 @@ export const HygieneProducts = () => {
 
     const handleDeleteProduct = async (productId) => {
         try {
-            console.log('Deleting product with ID:', productId);
             await deleteDoc(doc(db, 'products', productId));
             setProducts((prevProducts) => prevProducts.filter((product) => product.id !== productId));
-            console.log('Product deleted successfully!');
         } catch (error) {
             console.error('Error deleting product:', error);
         }
@@ -47,7 +47,14 @@ export const HygieneProducts = () => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const medicineProducts = products.filter(product => product.Category === 'Hygiene');
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value.toLowerCase());
+    };
+
+    const filteredProducts = products.filter(product => 
+        product.Category === 'Hygiene' && 
+        product.ProductName.toLowerCase().includes(searchTerm)
+    );
 
     return (
         <>
@@ -56,20 +63,31 @@ export const HygieneProducts = () => {
                     <CircularProgress />
                 </div>
             ) : (
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                    gap: '1rem',
-                    textAlign: 'center',
-                    margin: '2rem',
-                }}>
-                    {medicineProducts.map((product) => (
-                        <ProductCard key={product.id} 
-                        product={product} 
-                        onDelete={() => handleDeleteProduct(product.id)} />
-                    ))}
-                </div>
+                <>
+                    <TextField 
+                        fullWidth 
+                        label="Search Products" 
+                        variant="outlined" 
+                        onChange={handleSearchChange} 
+                        style={{ margin: '1rem' }}
+                    />
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                        gap: '1rem',
+                        textAlign: 'center',
+                        margin: '2rem',
+                    }}>
+                        {filteredProducts.map((product) => (
+                            <ProductCard key={product.id} 
+                            product={product} 
+                            onDelete={() => handleDeleteProduct(product.id)} />
+                        ))}
+                    </div>
+                </>
             )}
         </>
     );
 };
+
+export default HygieneProducts;
