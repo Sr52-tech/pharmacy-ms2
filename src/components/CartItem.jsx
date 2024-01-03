@@ -7,10 +7,15 @@ import { decrementQuantity, deleteItem, incrementQuantity } from '../redux/pharm
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 
-const CartItem = () => {
+const CartItem = ({onMedicineFound}) => {
     const dispatch = useDispatch();
     const productData = useSelector(state => state.pharmacy.productData)
     const [quantity, setQuantity] = useState('');
+
+    useEffect(() => {
+        const hasMedicine = productData.some(item => item.category === 'Medicine');
+        onMedicineFound(hasMedicine);
+    }, [productData, onMedicineFound]);
 
     return (
         <div className='w-2/3 pr-10'>
@@ -22,10 +27,12 @@ const CartItem = () => {
             <div>
                 {
                     productData.map((item) => (
+                        
                         <div
                             key={item._id}
                             className='flex items-center justify-between gap-6 mt-6'
                         >
+                            {console.log("Category",item.category)}
                             <div className='flex items-center gap-2'>
                                 <MdOutlineClose onClick={() => dispatch(deleteItem(item._id)) & toast.error(`${item.name} is removed`)} className='text-xl text-gray-600 hover:text-red-600 cursor-pointer duration-300' />
                                 <img className='w-32 h-32 object-cover'

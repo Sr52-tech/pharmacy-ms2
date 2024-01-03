@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react'
 import CartItem from '../components/CartItem';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const productData = useSelector((state) => state.pharmacy.productData);
     const userInfo = useSelector((state) => state.pharmacy.userInfo);
     const [totalAmt, setTotalAmt] = useState(0);
-    const [payNow, setPayNow] = useState(false);
+    const [isCheckoutInitiated, setIsCheckoutInitiated] = useState(false);
+    const [hasMedicine, setHasMedicine] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let total = 0;
@@ -15,18 +18,31 @@ const Cart = () => {
             total += item.quantity * item.price;
         });
         setTotalAmt(total);
-    }, [productData])
+    }, [productData]);
+
+    useEffect(() => {
+        if (isCheckoutInitiated && userInfo) {
+            console.log('hasMedicine', hasMedicine)
+            if (hasMedicine) {
+                navigate('/prescription');
+            } else {
+                navigate('/payment');
+            }
+        }
+    }, [hasMedicine, isCheckoutInitiated, userInfo, navigate]);
+
+    const handleMedicineFound = (isFound) => {
+        setHasMedicine(isFound);
+    };
 
     const handleCheckout = () => {
         if (userInfo) {
-            setPayNow(true);
-            toast.success('Payment Successful');
-            window.location.href='/payment';
-        }
-        else {
+            setIsCheckoutInitiated(true); 
+        } else {
             toast.error('Please login to continue');
         }
-    }
+    };
+
     return (
         <div>
             <img
@@ -35,7 +51,7 @@ const Cart = () => {
                 alt='cart'
             />
             <div className='max-w-screen-xl mx-auto py-20 flex'>
-                <CartItem />
+                <CartItem onMedicineFound={handleMedicineFound}/>
                 <div className='w-1/3 bg-[#fafafa] py-6 px-4'>
                     <div className='flex flex-col gap-6 border-b-[1px] border-b-gray-400 pb-6'>
                         <h2 className='text-2xl font-medium'>Cart Totals</h2>

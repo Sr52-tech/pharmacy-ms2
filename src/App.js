@@ -21,6 +21,7 @@ import Payment from './pages/Payment.js';
 import LegalDocs from './components/LegalDocs.js';
 import Contact from './pages/Contact.js';
 import ReportPage from './pages/ReportPage.js';
+import Prescription from './pages/Prescription.js';
 export class App extends React.Component {
 
 
@@ -104,6 +105,10 @@ export class App extends React.Component {
         {
           path: '/report',
           element: <ReportPage/>
+        },
+        {
+          path: '/prescription',
+          element: <Prescription/>
         }
       ]
     }

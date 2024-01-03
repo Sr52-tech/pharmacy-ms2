@@ -33,6 +33,7 @@ export function ProductCard({ product, onDelete }) {
                 price: product.ProductPrice,
                 quantity: 1,
                 description: product.Description,
+                category: product.Category,
             })
         ) && toast.success(`${product.ProductName} Added to cart`)
     };

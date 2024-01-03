@@ -70,6 +70,7 @@ function Nav({ user }) {
                     </Navbar.Link>
             </Navbar.Collapse>
 
+
             <ToastContainer
                 position="top-left"
                 autoClose={2000}
