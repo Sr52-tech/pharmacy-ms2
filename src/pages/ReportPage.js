@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase-config';
 import { collection, getDocs } from 'firebase/firestore';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Typography } from '@mui/material';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, Typography, Switch, FormControlLabel } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export const ReportPage = () => {
+    const [originalOrders, setOriginalOrders] = useState([]);
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [totalOrders, setTotalOrders] = useState(0);
-    const [totalAmount, setTotalAmount] = useState(0);
+    const [isSortedByPrice, setIsSortedByPrice] = useState(false);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -19,13 +19,21 @@ export const ReportPage = () => {
             }));
 
             setOrders(ordersData);
-            setTotalOrders(ordersData.length);
-            setTotalAmount(ordersData.reduce((sum, order) => sum + parseFloat(order.price), 0));
+            setOriginalOrders(ordersData); // Store original data
             setLoading(false);
         };
 
         fetchOrders();
     }, []);
+
+    useEffect(() => {
+        if (isSortedByPrice) {
+            const sortedOrders = [...orders].sort((a, b) => a.price - b.price);
+            setOrders(sortedOrders);
+        } else {
+            setOrders(originalOrders);
+        }
+    }, [isSortedByPrice, originalOrders]);
 
     if (loading) {
         return (
@@ -43,7 +51,15 @@ export const ReportPage = () => {
         <div>
             <Paper elevation={3} style={{ padding: '20px', margin: '20px', textAlign: 'center' }}>
                 <Typography variant="h5" style={{ marginBottom: '10px' }}>Total Orders Summary</Typography>
-                <Typography variant="body1"><strong>Total Orders:</strong> {totalOrders}</Typography>
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={isSortedByPrice}
+                            onChange={() => setIsSortedByPrice(!isSortedByPrice)}
+                        />
+                    }
+                    label={isSortedByPrice ? "Sorted by Price" : "Unsorted"}
+                />
             </Paper>
 
             <TableContainer component={Paper} style={{ margin: '20px' }}>
@@ -64,7 +80,7 @@ export const ReportPage = () => {
                         {orders.map((order) => (
                             <TableRow key={order.id}>
                                 <TableCell component="th" scope="row">{order.id}</TableCell>
-                                <TableCell align="right">{order.Product}</TableCell>
+                                {(order.Product || order.product) &&<TableCell align="right">{order.Product} {order.product}</TableCell>}
                                 <TableCell align="right">{order.Quantity}</TableCell>
                                 <TableCell align="right">{order.price}</TableCell>
                                 <TableCell align="right">{formatDate(order.date)}</TableCell>

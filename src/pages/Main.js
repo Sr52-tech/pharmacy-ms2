@@ -21,7 +21,7 @@ function Main() {
 
                     imgSrc="/Pics/Cards/vitamine.png"
                     title="Medicine Products"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    description="Find all your healthcare essentials, from over-the-counter remedies to prescription medications and supplements, in our Medicine category."
                     link="/medicine"
 
                 />
@@ -30,7 +30,7 @@ function Main() {
 
                     imgSrc="/Pics/Cards/Cosmetic.png"
                     title="Cosmetic Products"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    description="Elevate your beauty game with our selection of makeup, skincare, and beauty tools, designed to help you look and feel your best.."
                     link="/cosmetic"
                 />
 
@@ -38,7 +38,7 @@ function Main() {
 
                     imgSrc="/Pics/Cards/hygene.png"
                     title="Hygiene Products"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    description="Prioritize personal well-being with our hygiene products, including sanitizers, soaps, dental care, and more, to maintain cleanliness and health.."
                     link="/hygiene"
                 />
             </div>
