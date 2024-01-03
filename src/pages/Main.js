@@ -51,7 +51,7 @@ function Main() {
                 />
                 <h3 style={{ marginLeft: '100px' }}>
                 In our system, we are committed to revolutionizing pharmacy operations. Our user-friendly software solution optimizes inventory management, enhances workflow efficiency, and improves patient care.
-                <br></br> With advanced technologies and industry best practices, we empower pharmacies to streamline operations and provide exceptional service. Trust in our dedication to excellence and supporting your success in the dynamic healthcare landscape.                <br></br>a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. </h3>
+                <br></br> With advanced technologies and industry best practices, we empower pharmacies to streamline operations and provide exceptional service. Trust in our dedication to excellence and supporting your success in the dynamic healthcare landscape.                <br></br></h3>
             </div>
 
             <hr style={{ width: '70%', height: '1px', backgroundColor: 'black', marginLeft: 'auto', marginRight: 'auto' }} />
