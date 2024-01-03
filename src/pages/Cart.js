@@ -36,21 +36,24 @@ const Cart = () => {
     const handleMedicineFound = (isFound) => {
         setHasMedicine(isFound);
     };
+    // todaysdate
+    const today = new Date();
 
     const handleCheckout = async () => {
         const orderDetails = {
             products: productData,
             user: userInfo,
             total: totalAmt,
+            date: today
         };
     
         try {
             const docRef = await addDoc(collection(db, "orders"), orderDetails);
             console.log("Order has been saved with ID: ", docRef.id);
-            toast.success("Order has been placed successfully!");
+            // toast.success("Order has been placed successfully!");
         } catch (error) {
             console.error("Error adding order: ", error);
-            toast.error("Error placing order. Please try again.");
+            // toast.error("Error placing order. Please try again.");
         }
 
         if (userInfo) {

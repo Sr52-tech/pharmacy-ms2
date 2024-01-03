@@ -6,6 +6,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { Select, MenuItem } from '@mui/material';
+import Prescription from './Prescription';
 
 export const AddProducts = () => {
     const navigate = useNavigate();
@@ -17,6 +18,7 @@ export const AddProducts = () => {
         description: '',
         image: null,
         category: '',
+        prescription: false
     });
 
     const [errors, setErrors] = useState({});
@@ -99,6 +101,7 @@ export const AddProducts = () => {
                 ProductImage: imageUrl,
                 Description: product.description,
                 Category: product.category,
+                Prescription: product.prescription
             });
 
             // Clear the form
@@ -110,6 +113,7 @@ export const AddProducts = () => {
                 description: '',
                 image: null,
                 category: '',
+                prescription: false
             });
 
             // Clear file input

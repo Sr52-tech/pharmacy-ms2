@@ -13,13 +13,22 @@ export const ReportPage = () => {
     useEffect(() => {
         const fetchOrders = async () => {
             const querySnapshot = await getDocs(collection(db, 'orders'));
-            const ordersData = querySnapshot.docs.map(doc => ({
-                ...doc.data(),
-                id: doc.id
-            }));
+            const ordersData = querySnapshot.docs.map(doc => {
+                const data = doc.data();
+                const totalPrice = data.products?.reduce((sum, product) => {
+                    const price = parseFloat(product.price || 0);
+                    const quantity = parseInt(product.quantity || 0, 10);
+                    return sum + price * quantity;
+                }, 0) || 0;
+                return {
+                    ...data,
+                    id: doc.id,
+                    totalPrice: totalPrice
+                };
+            });
 
+            setOriginalOrders(ordersData);
             setOrders(ordersData);
-            setOriginalOrders(ordersData); // Store original data
             setLoading(false);
         };
 
@@ -28,7 +37,7 @@ export const ReportPage = () => {
 
     useEffect(() => {
         if (isSortedByPrice) {
-            const sortedOrders = [...orders].sort((a, b) => a.price - b.price);
+            const sortedOrders = [...orders].sort((a, b) => a.totalPrice - b.totalPrice);
             setOrders(sortedOrders);
         } else {
             setOrders(originalOrders);
@@ -43,10 +52,14 @@ export const ReportPage = () => {
         );
     }
 
-    const formatDate = (date) => {
-        return date ? date.toDate().toLocaleDateString() : 'N/A';
+    const formatDate = (timestamp) => {
+        return timestamp ? new Date(timestamp.seconds * 1000).toLocaleDateString() : 'N/A';
     };
 
+    const formatProducts = (products) => {
+        return products?.map(product => `${product.name}`).join(', ') || '';
+    };
+// (Quantity: ${product.quantity}, Price: ${product.price})
     return (
         <div>
             <Paper elevation={3} style={{ padding: '20px', margin: '20px', textAlign: 'center' }}>
@@ -58,7 +71,7 @@ export const ReportPage = () => {
                             onChange={() => setIsSortedByPrice(!isSortedByPrice)}
                         />
                     }
-                    label={isSortedByPrice ? "Sorted by Price" : "Unsorted"}
+                    label={isSortedByPrice ? "Sorted by Total Price" : "Unsorted"}
                 />
             </Paper>
 
@@ -67,26 +80,20 @@ export const ReportPage = () => {
                     <TableHead>
                         <TableRow>
                             <TableCell>Order ID</TableCell>
-                            <TableCell align="right">Product</TableCell>
-                            <TableCell align="right">Quantity</TableCell>
-                            <TableCell align="right">Price</TableCell>
+                            <TableCell align="right">Products</TableCell>
+                            <TableCell align="right">Total Price</TableCell>
                             <TableCell align="right">Date</TableCell>
-                            <TableCell align="right">Customer Name</TableCell>
-                            <TableCell align="right">Email</TableCell>
-                            <TableCell align="right">Phone</TableCell>
+                            <TableCell align="right">Customer Details</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {orders.map((order) => (
                             <TableRow key={order.id}>
                                 <TableCell component="th" scope="row">{order.id}</TableCell>
-                                {(order.Product || order.product) &&<TableCell align="right">{order.Product} {order.product}</TableCell>}
-                                <TableCell align="right">{order.Quantity}</TableCell>
-                                <TableCell align="right">{order.price}</TableCell>
+                                <TableCell align="right">{formatProducts(order.products)}</TableCell>
+                                <TableCell align="right">{order.totalPrice ? `$${order.totalPrice.toFixed(2)}` : 'N/A'}</TableCell>
                                 <TableCell align="right">{formatDate(order.date)}</TableCell>
-                                <TableCell align="right">{order.name}</TableCell>
-                                <TableCell align="right">{order.email}</TableCell>
-                                <TableCell align="right">{order.phone}</TableCell>
+                                <TableCell align="right">{order.user?.name} ({order.user?.email}, {order.user?.phone})</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

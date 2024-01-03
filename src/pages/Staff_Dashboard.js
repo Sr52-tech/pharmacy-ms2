@@ -14,14 +14,14 @@ function Staff_Dashboard() {
 
                     imgSrc='/Pics/BlurredMeds.png'
                     title="Add New Product"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    description="With a user-friendly interface, you can quickly input essential details and upload images, ensuring an accurate and comprehensive inventory. Simplify product management and keep your offerings up to date with ease."
                     link="/addproducts"
                 />
 
                 <Categories
                     imgSrc="/Pics/BlurredMeds.png"
                     title="View Reports"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    description="With a simple click, you can access detailed reports on sales, inventory, and other key metrics. Our user-friendly interface presents the information in a clear and organized manner, enabling you to make informed decisions and gain valuable insights into your pharmacy's performance. Streamline your analysis and drive business growth with our powerful reporting capabilities."
                     link="/report"
                 />
 
@@ -29,7 +29,7 @@ function Staff_Dashboard() {
 
                     imgSrc="/Pics/BlurredMeds.png"
                     title="Statistics"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    description="Our user-friendly interface presents the statistics in a clear and visually appealing format, allowing you to analyze trends, identify opportunities, and make data-driven decisions. Streamline your reporting and harness the power of statistics to optimize your pharmacy's operations and drive success."
                     link="/stat"
                 />
             </div>

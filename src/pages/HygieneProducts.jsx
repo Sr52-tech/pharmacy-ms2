@@ -24,6 +24,7 @@ export const HygieneProducts = () => {
                 Product_quantity: doc.data().Product_quantity,
                 Description: doc.data().Description,
                 Category: doc.data().Category,
+                Prescription: doc.data().Prescription,
             }));
             setProducts(products);
             setLoading(false);
