@@ -93,7 +93,7 @@ export const ReportPage = () => {
                                 <TableCell align="right">{formatProducts(order.products)}</TableCell>
                                 <TableCell align="right">{order.totalPrice ? `$${order.totalPrice.toFixed(2)}` : 'N/A'}</TableCell>
                                 <TableCell align="right">{formatDate(order.date)}</TableCell>
-                                <TableCell align="right">{order.user?.name} ({order.user?.email}, {order.user?.phone})</TableCell>
+                                <TableCell align="right">{order.user?.email}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
