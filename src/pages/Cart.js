@@ -57,7 +57,6 @@ const Cart = () => {
             console.error("Error adding order: ", error);
             // toast.error("Error placing order. Please try again.");
         }
-        dispatch(clearCart());
 
         if (userInfo) {
             setIsCheckoutInitiated(true); 

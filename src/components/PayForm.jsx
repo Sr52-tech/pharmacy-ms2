@@ -4,6 +4,7 @@ import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 
 
 function PayForm() {
@@ -14,6 +15,7 @@ function PayForm() {
     const [nameError, setNameError] = useState("");
     const [cvcError, setCVCError] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const validateCardNum = (value) => {
         // Add your validation logic here
@@ -128,6 +130,7 @@ function PayForm() {
     const handleSubmitClick = (e) => { 
         e.preventDefault();
         toast.success('Payment Successful')
+        dispatch(clearCart());
         navigate('/')
         console.log("submitting");
     }
