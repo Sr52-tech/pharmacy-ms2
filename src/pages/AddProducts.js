@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Grid, Paper } from '@mui/material';
+import { TextField, Button, Container, Typography, Grid, Paper, Switch, FormControlLabel } from '@mui/material';
 import { db, storage } from '../firebase-config';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc } from "firebase/firestore";
@@ -55,6 +55,13 @@ export const AddProducts = () => {
                 image: null,
             });
         }
+    };
+
+    const handlePrescriptionChange = (event) => {
+        setProduct({
+            ...product,
+            prescription: event.target.checked,
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -163,6 +170,19 @@ export const AddProducts = () => {
                         </Grid>
                         <Grid item xs={12}>
                             <TextField fullWidth label="Product Description" name="description" value={product.description} onChange={handleChange} error={Boolean(errors.description)} helperText={errors.description} />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControlLabel
+                                control={
+                                    <Switch
+                                        checked={product.prescription}
+                                        onChange={handlePrescriptionChange}
+                                        name="prescription"
+                                        color="primary"
+                                    />
+                                }
+                                label="Prescription Required"
+                            />
                         </Grid>
                         <Grid item xs={12}>
                             <input id="file" type="file" accept=".png, .jpg, .jpeg" onChange={handleImageChange} />
