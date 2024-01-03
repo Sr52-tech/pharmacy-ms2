@@ -67,12 +67,16 @@ export function ProductCard({ product, onDelete }) {
             </div>
             <div className="flex items-center justify-between">
                 <span className="text-3xl font-bold text-gray-900 dark:text-white">${product.ProductPrice}</span>
-                <button
-                    className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
-                    onClick={handleAddToCartClick}
-                >
-                    Add to cart
-                </button>
+                
+                {userInfo?.Role !== 'admin' && (
+                    <button
+                        className="rounded-lg bg-cyan-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-800 focus:outline-none focus:ring-4 focus:ring-cyan-300 dark:bg-cyan-600 dark:hover:bg-cyan-700 dark:focus:ring-cyan-800"
+                        onClick={handleAddToCartClick}
+                    >
+                        Add to cart
+                    </button>
+                )}
+
                 {onDelete && userInfo?.Role === 'admin' && (
                     <button
                         className="rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-700 ml-2"
