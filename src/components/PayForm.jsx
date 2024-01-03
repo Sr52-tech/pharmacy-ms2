@@ -5,6 +5,7 @@ import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
+import { clearCart } from '../redux/pharmacySlice';
 
 
 function PayForm() {

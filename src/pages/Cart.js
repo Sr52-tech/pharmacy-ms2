@@ -14,7 +14,7 @@ const Cart = () => {
     const [isCheckoutInitiated, setIsCheckoutInitiated] = useState(false);
     const [hasMedicine, setHasMedicine] = useState(false);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+
 
     useEffect(() => {
         let total = 0;
@@ -46,8 +46,9 @@ const Cart = () => {
             products: productData,
             user: userInfo,
             total: totalAmt,
-            date: today
+            date: today,
         };
+        console.log('orderDetails', orderDetails);
     
         try {
             const docRef = await addDoc(collection(db, "orders"), orderDetails);
