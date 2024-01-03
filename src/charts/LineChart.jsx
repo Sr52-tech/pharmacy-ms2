@@ -1,40 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { db } from '../firebase-config.js';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement } from 'chart.js';
 import CircularProgress from '@mui/material/CircularProgress';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
-function LineChart() {
+const LineChart = () => {
     const [orderCounts, setOrderCounts] = useState([]);
-    const [months, setMonths] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const collectionRef = collection(db, "orders");
 
     useEffect(() => {
-        const fetchOrderCount = async () => {
-            const counts = [];
-            const monthLabels = [];
+        const fetchOrders = async () => {
+            const ordersSnapshot = await getDocs(collectionRef);
+            const ordersData = ordersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-            for (let i = 0; i < 12; i++) {
-                const startTimestamp = new Date(2023, i, 1);
-                const endTimestamp = new Date(2023, i + 1, 0);
+            const monthlyCounts = Array(12).fill(0);
 
-                const q = query(collectionRef, where("date", ">=", startTimestamp), where("date", "<=", endTimestamp));
-                const querySnapshot = await getDocs(q);
-                counts.push(querySnapshot.docs.length);
-                monthLabels.push(startTimestamp.toLocaleString('default', { month: 'long' }));
-            }
+            ordersData.forEach(order => {
+                const orderDate = order.date.toDate(); // Convert Timestamp to JavaScript Date
+                if (orderDate.getFullYear() === 2023) { // Adjust the year as needed
+                    const monthIndex = orderDate.getMonth();
+                    monthlyCounts[monthIndex]++;
+                }
+            });
 
-            setOrderCounts(counts);
-            setMonths(monthLabels);
+            setOrderCounts(monthlyCounts);
             setLoading(false);
         };
 
-        fetchOrderCount();
+        fetchOrders();
     }, []);
 
     if (loading) {
@@ -46,7 +44,7 @@ function LineChart() {
     }
 
     const chartData = {
-        labels: months,
+        labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         datasets: [
             {
                 label: '# of Orders',
