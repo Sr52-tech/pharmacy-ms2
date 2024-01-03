@@ -13,7 +13,7 @@ const CartItem = ({onMedicineFound}) => {
     const [quantity, setQuantity] = useState('');
 
     useEffect(() => {
-        const hasMedicine = productData.some(item => item.category === 'Medicine');
+        const hasMedicine = productData.some(item => item.prescription === true);
         onMedicineFound(hasMedicine);
     }, [productData, onMedicineFound]);
 
@@ -32,7 +32,7 @@ const CartItem = ({onMedicineFound}) => {
                             key={item._id}
                             className='flex items-center justify-between gap-6 mt-6'
                         >
-                            {console.log("Category",item.category)}
+                            {console.log("Prescription required?",item.prescription)}
                             <div className='flex items-center gap-2'>
                                 <MdOutlineClose onClick={() => dispatch(deleteItem(item._id)) & toast.error(`${item.name} is removed`)} className='text-xl text-gray-600 hover:text-red-600 cursor-pointer duration-300' />
                                 <img className='w-32 h-32 object-cover'

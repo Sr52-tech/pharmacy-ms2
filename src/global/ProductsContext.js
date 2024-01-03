@@ -22,6 +22,7 @@ export class ProductsContextProvider extends React.Component {
                 Product_quantity: doc.data().Product_quantity,
                 Description: doc.data().Description,
                 Category: doc.data().Category,
+                Prescription: doc.data().Prescription,
             });
         });
         this.setState({

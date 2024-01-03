@@ -2,6 +2,10 @@ import React from "react";
 import { useState } from "react";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../redux/pharmacySlice';
 
 
 function PayForm() {
@@ -11,6 +15,8 @@ function PayForm() {
     const [yearError, setYearError] = useState("");
     const [nameError, setNameError] = useState("");
     const [cvcError, setCVCError] = useState("");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const validateCardNum = (value) => {
         // Add your validation logic here
@@ -121,6 +127,14 @@ function PayForm() {
         cvc: "",
         focus: "",
     });
+
+    const handleSubmitClick = (e) => { 
+        e.preventDefault();
+        toast.success('Payment Successful')
+        dispatch(clearCart());
+        navigate('/')
+        console.log("submitting");
+    }
 
 
     return (
@@ -240,12 +254,25 @@ function PayForm() {
 
         <button 
             type="submit" 
+            onClick={handleSubmitClick}
             class="text-white bg-[#0C7494] hover:bg-[#0c5994] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full sm:w-auto px-10 py-2 text-center mx-auto block dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             style={{marginTop: '20px', width: '50%', height: '50px'}}
             disabled={cardNumError || monthError || yearError || nameError || cvcError}
         > Submit
         </button>
     </form>
+    <ToastContainer
+                position="top-left"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
 
     </div>
 

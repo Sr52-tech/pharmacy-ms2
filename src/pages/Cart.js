@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import CartItem from '../components/CartItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
+import { db } from '../firebase-config';
+import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
+import { clearCart } from '../redux/pharmacySlice';
 
 const Cart = () => {
     const productData = useSelector((state) => state.pharmacy.productData);
@@ -11,6 +14,7 @@ const Cart = () => {
     const [isCheckoutInitiated, setIsCheckoutInitiated] = useState(false);
     const [hasMedicine, setHasMedicine] = useState(false);
     const navigate = useNavigate();
+
 
     useEffect(() => {
         let total = 0;
@@ -34,8 +38,27 @@ const Cart = () => {
     const handleMedicineFound = (isFound) => {
         setHasMedicine(isFound);
     };
+    // todaysdate
+    const today = new Date();
 
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
+        const orderDetails = {
+            products: productData,
+            user: userInfo,
+            total: totalAmt,
+            date: today,
+        };
+        console.log('orderDetails', orderDetails);
+    
+        try {
+            const docRef = await addDoc(collection(db, "orders"), orderDetails);
+            console.log("Order has been saved with ID: ", docRef.id);
+            // toast.success("Order has been placed successfully!");
+        } catch (error) {
+            console.error("Error adding order: ", error);
+            // toast.error("Error placing order. Please try again.");
+        }
+
         if (userInfo) {
             setIsCheckoutInitiated(true); 
         } else {
