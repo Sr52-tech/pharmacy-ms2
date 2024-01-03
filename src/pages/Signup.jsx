@@ -87,13 +87,9 @@ export const Signup = () => {
                     phone: user.phoneNumber || '',
                     Role: currentUserData?.Role || 'user',
                 };
-    
                 dispatch(addUser(userData));
             }
-    
-            setTimeout(() => {
                 navigate('/');
-            }, 500);
         } catch (error) {
             console.error(error);
             // TODO: Add error handling for the specific error scenarios

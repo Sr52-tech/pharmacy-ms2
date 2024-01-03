@@ -7,7 +7,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { Select, MenuItem } from '@mui/material';
 import Prescription from './Prescription';
-
+import { ToastContainer, toast } from 'react-toastify';
 export const AddProducts = () => {
     const navigate = useNavigate();
     const [product, setProduct] = useState({
@@ -110,6 +110,7 @@ export const AddProducts = () => {
                 Category: product.category,
                 Prescription: product.prescription
             });
+            toast.success("Document Added Successfully!");
 
             // Clear the form
             setProduct({
@@ -130,6 +131,7 @@ export const AddProducts = () => {
         } catch (err) {
             // Update error state correctly
             setErrors({ ...errors, image: err.message });
+            toast.error("Error Adding Product!");
             console.error('Error in handleSubmit:', err.message);
         }
     };
@@ -194,6 +196,18 @@ export const AddProducts = () => {
                     </Button>
                 </form>
             </Paper>
+            <ToastContainer
+                position="top-left"
+                autoClose={2000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </Container>
     );
 };
