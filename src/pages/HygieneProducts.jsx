@@ -71,13 +71,7 @@ export const HygieneProducts = () => {
                         onChange={handleSearchChange} 
                         style={{ margin: '1rem' }}
                     />
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: isSmallScreen ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                        gap: '1rem',
-                        textAlign: 'center',
-                        margin: '2rem',
-                    }}>
+                    <div className="row flex flex-wrap justify-center gap-6" style={{ marginBottom: '100px', marginTop: '30px' }}>
                         {filteredProducts.map((product) => (
                             <ProductCard key={product.id} 
                             product={product} 
