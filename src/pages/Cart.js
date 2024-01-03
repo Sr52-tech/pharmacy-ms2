@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import CartItem from '../components/CartItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { db } from '../firebase-config';
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
+import { clearCart } from '../redux/pharmacySlice';
 
 const Cart = () => {
     const productData = useSelector((state) => state.pharmacy.productData);
@@ -13,6 +14,7 @@ const Cart = () => {
     const [isCheckoutInitiated, setIsCheckoutInitiated] = useState(false);
     const [hasMedicine, setHasMedicine] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         let total = 0;
@@ -55,6 +57,7 @@ const Cart = () => {
             console.error("Error adding order: ", error);
             // toast.error("Error placing order. Please try again.");
         }
+        dispatch(clearCart());
 
         if (userInfo) {
             setIsCheckoutInitiated(true); 
