@@ -39,10 +39,13 @@ function Nav({ user }) {
             </Navbar.Brand>
             <div className="flex md:order-2 items-center">
                 <Navbar.Toggle />
+                {userInfo && userInfo.Role !== 'admin' && (
                 <Link to="/cart" className="flex items-center mr-4">
                     {/* Using ShoppingCartIcon with the count prop */}
                     <ShoppingCartIcon count={productData.length} />
                 </Link>
+                )}
+                
                 {userInfo && <Button className="mr-2" onClick={handleSignout}>Signout</Button>}
                 <Link to="login" className="flex md:order-2 items-center">
                     {userInfo && userInfo.image && <Avatar img={userInfo?.image || 'default-image-url'} alt="avatar" rounded />}
