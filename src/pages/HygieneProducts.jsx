@@ -52,8 +52,10 @@ export const HygieneProducts = () => {
     };
 
     const filteredProducts = products.filter(product => 
-        product.Category === 'Hygiene' && 
-        product.ProductName.toLowerCase().includes(searchTerm)
+        product.Category === 'Medicine' && (
+        product.ProductName.toLowerCase().includes(searchTerm) || 
+        product.Description.toLowerCase().includes(searchTerm) 
+        )
     );
 
     return (

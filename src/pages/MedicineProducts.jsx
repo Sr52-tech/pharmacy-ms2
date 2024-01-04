@@ -56,8 +56,10 @@ export const MedicineProducts = () => {
     };
 
     const filteredProducts = products.filter(product => 
-        product.Category === 'Medicine' && 
-        product.ProductName.toLowerCase().includes(searchTerm)
+        product.Category === 'Medicine' && (
+        product.ProductName.toLowerCase().includes(searchTerm) || 
+        product.Description.toLowerCase().includes(searchTerm) 
+        )
     );
 
     return (
